@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sensors</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+</head>
+<body>
+
+<div class="container mt-4">
+
+    <!-- Top section with sensor count -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Sensor Dashboard</h1>
+        <span class="badge bg-primary" th:text="'Total Sensors: ' + ${sensorCount}"></span>
+    </div>
+
+    <!-- Sensors Table -->
+    <h2>All Sensors</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Pin</th>
+            <th>Location</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop through sensors and display them -->
+        <tr th:each="sensor : ${sensors}">
+            <td th:text="${sensor.sensorId}"></td>
+            <td th:text="${sensor.sensorName}"></td>
+            <td th:text="${sensor.sensorType}"></td>
+            <td th:text="${sensor.sensorPin}"></td>
+            <td th:text="${sensor.sensorLocation}"></td>
+            <td th:text="${sensor.sensorStatus}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Form to Add New Sensor -->
+    <h2>Add New Sensor</h2>
+    <form action="#" th:action="@{/add}" th:object="${sensor}" method="post">
+        <div class="mb-3">
+            <label for="sensorName" class="form-label">Sensor Name</label>
+            <input type="text" class="form-control" id="sensorName" th:field="*{sensorName}" placeholder="Enter sensor name">
+            <div th:if="${#fields.hasErrors('sensorName')}" class="text-danger" th:errors="*{sensorName}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="sensorType" class="form-label">Sensor Type</label>
+            <input type="text" class="form-control" id="sensorType" th:field="*{sensorType}" placeholder="Enter sensor type">
+            <div th:if="${#fields.hasErrors('sensorType')}" class="text-danger"  th:errors="*{sensorType}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="sensorPin" class="form-label">Sensor Pin</label>
+            <input type="number" class="form-control" id="sensorPin" th:field="*{sensorPin}" placeholder="Enter sensor pin">
+            <div th:if="${#fields.hasErrors('sensorPin')}" class="text-danger" th:errors="*{sensorPin}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="sensorLocation" class="form-label">Sensor Location (Optional)</label>
+            <input type="text" class="form-control" id="sensorLocation" th:field="*{sensorLocation}" placeholder="Enter sensor location (optional)">
+            <div th:if="${#fields.hasErrors('sensorLocation')}" class="text-danger" th:errors="*{sensorLocation}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="sensorStatus" class="form-label">Sensor Status</label>
+            <select class="form-select" id="sensorStatus" th:field="*{sensorStatus}">
+                <option value="">Select status</option>
+                <option value="ON">ON</option>
+                <option value="OFF">OFF</option>
+            </select>
+            <div th:if="${#fields.hasErrors('sensorStatus')}" class="text-danger" th:errors="*{sensorStatus}"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Sensor</button>
+    </form>
+
+</div>
+</body>
+</html>
